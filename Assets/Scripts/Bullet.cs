@@ -8,11 +8,14 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float speed;
     [SerializeField] private Vector2 direction;
     [SerializeField] private float destroyTime;
-    public void SetBullet(Vector2 bulletDirection, float bulletSpeed, float bulletDestroyTime)
+    [SerializeField] private int damage;
+
+    public void SetBullet(Vector2 bulletDirection, float bulletSpeed, float bulletDestroyTime, int bulletDamage)
     {
         speed = bulletSpeed;
         direction = bulletDirection;
         destroyTime = bulletDestroyTime;
+        damage = bulletDamage;
     }
     public void LaunchBullet()
     {
@@ -27,5 +30,14 @@ public class Bullet : MonoBehaviour
         yield return new WaitForSeconds(destroyTime);
 
         Destroy(gameObject);
+    }
+
+    private void OnTriggerEnter2D(Collider2D other) {
+        Enemy enemy = other?.GetComponent<Enemy>();
+        if(enemy)
+        {
+            enemy.SetHealth(damage);
+            Destroy(gameObject);
+        }
     }
 }

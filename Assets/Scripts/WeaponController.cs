@@ -9,6 +9,7 @@ public class WeaponController : MonoBehaviour
     [SerializeField] private float fireRate;
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float bulletDestroyTime;
+    [SerializeField] private int bulletDamage;
 
     private bool isShooting;
     void Start()
@@ -35,7 +36,7 @@ public class WeaponController : MonoBehaviour
         yield return new WaitForSeconds(fireRate);
         //without bulletprefab.gameobject script can cause errors
         Bullet bulletPrefab = Instantiate(this.bulletPrefab, firepoint.position, firepoint.rotation);
-        bulletPrefab.SetBullet(transform.right, bulletSpeed, bulletDestroyTime);
+        bulletPrefab.SetBullet(transform.right, bulletSpeed, bulletDestroyTime, bulletDamage);
         bulletPrefab.LaunchBullet();
         isShooting = false;
     }
